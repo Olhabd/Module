@@ -1,8 +1,8 @@
 from datetime import datetime
+
 import pytest
 
 from src.analyze_price import (
-    read_price,
     product_filter,
     last_month_records,
     price_change,
@@ -12,13 +12,41 @@ from src.analyze_price import (
 @pytest.fixture
 def sample_records():
     return [
-        {"product_name": "Кава", "date": datetime(2024, 3, 1), "price": 150.0},
-        {"product_name": "Кава", "date": datetime(2024, 3, 25), "price": 155.0},
-        {"product_name": "Кава", "date": datetime(2024, 4, 5), "price": 160.0},
-        {"product_name": "Чай", "date": datetime(2024, 3, 10), "price": 80.0},
-        {"product_name": "Чай", "date": datetime(2024, 4, 1), "price": 85.0},
-        {"product_name": "Сік", "date": datetime(2024, 3, 15), "price": 60.0},
-        {"product_name": "Сік", "date": datetime(2024, 4, 10), "price": 65.0},
+        {
+            "product_name": "Кава",
+            "date": datetime(2024, 3, 1),
+            "price": 150.0
+        },
+        {
+            "product_name": "Кава",
+            "date": datetime(2024, 3, 25),
+            "price": 155.0
+        },
+        {
+            "product_name": "Кава",
+            "date": datetime(2024, 4, 5),
+            "price": 160.0
+        },
+        {
+            "product_name": "Чай",
+            "date": datetime(2024, 3, 10),
+            "price": 80.0
+        },
+        {
+            "product_name": "Чай",
+            "date": datetime(2024, 4, 1),
+            "price": 85.0
+        },
+        {
+            "product_name": "Сік",
+            "date": datetime(2024, 3, 15),
+            "price": 60.0
+        },
+        {
+            "product_name": "Сік",
+            "date": datetime(2024, 4, 10),
+            "price": 65.0
+        },
     ]
 
 
@@ -46,7 +74,11 @@ def test_price_change(sample_records):
 
 def test_not_enough_data():
     records = [
-        {"product_name": "Цукор", "date": datetime(2024, 4, 1), "price": 30.0}
+        {
+            "product_name": "Цукор",
+            "date": datetime(2024, 4, 1),
+            "price": 30.0
+        }
     ]
 
     with pytest.raises(ValueError):

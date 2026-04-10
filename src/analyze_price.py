@@ -1,11 +1,10 @@
 from datetime import datetime, timedelta
 
-def read_price(file_path: str):
 
+def read_price(file_path: str):
     records = []
 
     with open(file_path, "r", encoding="utf-8") as file:
-
         for line in file:
             line = line.strip()
             if not line:
@@ -28,41 +27,39 @@ def read_price(file_path: str):
 
     return records
 
+
 def product_filter(records, product_name: str):
-    
-    results = []
+    result = []
 
     for record in records:
         if record["product_name"].lower() == product_name.lower():
-            results.append(record)
-
-    return results
-
-def last_month_records(records):
-
-    if not records:
-        return []
-    
-    sorted_records = sorted(records, key=lambda x: x["date"])
-    latest_date = sorted_records[-1]["date"]
-
-    month = latest_date - timedelta(days=30)
-
-    result = []
-
-    for record in sorted_records:
-        if record["date"] >= month:
             result.append(record)
 
     return result
 
-def price_change(records):
 
+def last_month_records(records):
+    if not records:
+        return []
+
+    sorted_records = sorted(records, key=lambda x: x["date"])
+    latest_date = sorted_records[-1]["date"]
+    month_ago = latest_date - timedelta(days=30)
+
+    result = []
+
+    for record in sorted_records:
+        if record["date"] >= month_ago:
+            result.append(record)
+
+    return result
+
+
+def price_change(records):
     if len(records) < 2:
         raise ValueError("Недостатньо даних для обчислення зміни ціни")
 
     sorted_records = sorted(records, key=lambda x: x["date"])
-
     start_price = sorted_records[0]["price"]
     end_price = sorted_records[-1]["price"]
 
@@ -76,15 +73,16 @@ def price_change(records):
         "percent_change": round(percent_change, 2)
     }
 
+
 def get_product_price_change(file_path, product_name: str):
     records = read_price(file_path)
     product_records = product_filter(records, product_name)
-    last_month_records = last_month_records(product_records)
+    recent_records = last_month_records(product_records)
 
-    return price_change(last_month_records)
+    return price_change(recent_records)
+
 
 if __name__ == "__main__":
-
     file_path = "data/products.txt"
     product_name = input("Введіть назву продукта: ")
 
