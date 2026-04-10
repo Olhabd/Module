@@ -27,3 +27,13 @@ def read_price(file_path: str):
             records.append(record)
 
     return records
+
+def product_filter(records, product_name: str):
+    
+    results = []
+
+    for record in records:
+        if record["product_name"].lower() == product_name.lower():
+            results.append(record)
+
+    return results
