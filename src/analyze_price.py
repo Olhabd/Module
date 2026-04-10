@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 def read_price(file_path: str):
 
@@ -37,3 +37,21 @@ def product_filter(records, product_name: str):
             results.append(record)
 
     return results
+
+def last_month_records(records):
+
+    if not records:
+        return []
+    
+    sorted_records = sorted(records, key=lambda x: x["date"])
+    latest_date = sorted_records[-1]["date"]
+
+    month = latest_date - timedelta(days=30)
+
+    result = []
+
+    for record in sorted_records:
+        if record["date"] >= month:
+            result.append(record)
+
+    return result
