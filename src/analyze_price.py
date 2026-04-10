@@ -75,3 +75,24 @@ def price_change(records):
         "change": round(change, 2),
         "percent_change": round(percent_change, 2)
     }
+
+def get_product_price_change(file_path, product_name: str):
+    records = read_price(file_path)
+    product_records = product_filter(records, product_name)
+    last_month_records = last_month_records(product_records)
+
+    return price_change(last_month_records)
+
+if __name__ == "__main__":
+
+    file_path = "data/products.txt"
+    product_name = input("Введіть назву продукта: ")
+
+    try:
+        result = get_product_price_change(file_path, product_name)
+        print(f"Початкова ціна: {result['start_price']}")
+        print(f"Кінцева ціна: {result['end_price']}")
+        print(f"Зміна ціни: {result['change']}")
+        print(f"Зміна ціни у відсотках: {result['percent_change']}%")
+    except ValueError as error:
+        print(f"Помилка: {error}")
