@@ -55,3 +55,23 @@ def last_month_records(records):
             result.append(record)
 
     return result
+
+def price_change(records):
+
+    if len(records) < 2:
+        raise ValueError("Недостатньо даних для обчислення зміни ціни")
+
+    sorted_records = sorted(records, key=lambda x: x["date"])
+
+    start_price = sorted_records[0]["price"]
+    end_price = sorted_records[-1]["price"]
+
+    change = end_price - start_price
+    percent_change = (change / start_price) * 100
+
+    return {
+        "start_price": start_price,
+        "end_price": end_price,
+        "change": round(change, 2),
+        "percent_change": round(percent_change, 2)
+    }
